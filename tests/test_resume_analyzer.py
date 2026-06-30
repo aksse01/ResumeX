@@ -48,6 +48,16 @@ class ResumeAnalyzerTests(unittest.TestCase):
         self.assertIn("problem solving", skills)
         self.assertIn("communication", skills)
 
+    def test_analysis_includes_section_feedback_and_export(self):
+        result = analyze_resume(
+            "Aaditya Sengar\nSkills\nPython SQL Git\nExperience\n- Improved dashboard speed by 20%.\nProjects\nSales dashboard\nEducation\nBTech",
+            "Need Python, SQL, Git, communication, and dashboard experience.",
+        )
+
+        self.assertTrue(result.section_feedback)
+        self.assertIn("TARGETED PROFESSIONAL SUMMARY", result.improved_resume)
+        self.assertIn("ATS KEYWORDS TO INCLUDE", result.improved_resume)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -60,6 +60,14 @@ SECTION_KEYWORDS = {
 
 
 @dataclass(frozen=True)
+class SectionFeedback:
+    name: str
+    score: int
+    status: str
+    feedback: str
+
+
+@dataclass(frozen=True)
 class AnalysisResult:
     score: int
     matched_skills: list[str]
@@ -68,6 +76,8 @@ class AnalysisResult:
     job_keywords: list[str]
     suggestions: list[str]
     section_checks: dict[str, bool]
+    section_feedback: list[SectionFeedback]
+    improved_resume: str
 
 
 def normalize_text(text: str) -> str:
@@ -151,13 +161,15 @@ def analyze_resume(resume_text: str, job_description: str) -> AnalysisResult:
     job_keywords = extract_keywords(job_description)
     keyword_overlap = set(resume_keywords) & set(job_keywords)
     section_checks = check_sections(resume_text)
+    section_feedback = build_section_feedback(resume_text, section_checks)
 
     skill_score = 100 if not job_skills else round((len(matched) / len(job_skills)) * 100)
     keyword_score = 100 if not job_keywords else round((len(keyword_overlap) / min(len(job_keywords), 20)) * 100)
-    section_score = round((sum(section_checks.values()) / len(section_checks)) * 100)
+    section_score = round(sum(section.score for section in section_feedback) / len(section_feedback))
     score = round((skill_score * 0.55) + (keyword_score * 0.25) + (section_score * 0.20))
 
-    suggestions = build_suggestions(missing, section_checks, score)
+    suggestions = build_suggestions(missing, section_checks, section_feedback, score)
+    improved_resume = build_improved_resume(resume_text, job_description, missing, suggestions)
 
     return AnalysisResult(
         score=max(0, min(score, 100)),
@@ -167,10 +179,72 @@ def analyze_resume(resume_text: str, job_description: str) -> AnalysisResult:
         job_keywords=job_keywords,
         suggestions=suggestions,
         section_checks=section_checks,
+        section_feedback=section_feedback,
+        improved_resume=improved_resume,
     )
 
 
-def build_suggestions(missing_skills: list[str], section_checks: dict[str, bool], score: int) -> list[str]:
+def build_section_feedback(resume_text: str, section_checks: dict[str, bool]) -> list[SectionFeedback]:
+    normalized = normalize_text(resume_text)
+    bullet_count = len(re.findall(r"(^|\n)\s*[-*\u2022]", resume_text))
+    metric_count = len(re.findall(r"\b\d+%?|\b\d{1,3}(?:,\d{3})+\b", resume_text))
+    word_count = len(normalized.split())
+
+    impact_score = min(100, 45 + metric_count * 12 + bullet_count * 3)
+    brevity_score = 88 if 250 <= word_count <= 650 else 62 if word_count < 250 else 70
+    formatting_score = min(100, 55 + sum(section_checks.values()) * 9)
+
+    feedback = [
+        SectionFeedback(
+            "Impact",
+            impact_score,
+            _status_for_score(impact_score),
+            "Use measurable outcomes in bullets, such as users served, time saved, accuracy, revenue, or scale.",
+        ),
+        SectionFeedback(
+            "Brevity",
+            brevity_score,
+            _status_for_score(brevity_score),
+            "Keep bullets concise and recruiter-scannable; aim for one clear result per bullet.",
+        ),
+        SectionFeedback(
+            "Formatting",
+            formatting_score,
+            _status_for_score(formatting_score),
+            "Use clear section headings, consistent dates, and ATS-safe text instead of heavy graphics or tables.",
+        ),
+    ]
+
+    for section, present in section_checks.items():
+        score = 92 if present else 38
+        feedback.append(
+            SectionFeedback(
+                section.title(),
+                score,
+                _status_for_score(score),
+                "Detected in resume." if present else f"Add a dedicated {section} section with role-relevant details.",
+            )
+        )
+
+    return feedback
+
+
+def _status_for_score(score: int) -> str:
+    if score >= 85:
+        return "Strong"
+    if score >= 70:
+        return "Good"
+    if score >= 50:
+        return "Needs polish"
+    return "Missing"
+
+
+def build_suggestions(
+    missing_skills: list[str],
+    section_checks: dict[str, bool],
+    section_feedback: list[SectionFeedback],
+    score: int,
+) -> list[str]:
     suggestions: list[str] = []
     if missing_skills:
         suggestions.append("Add evidence for these job keywords where truthful: " + ", ".join(missing_skills[:8]) + ".")
@@ -178,10 +252,49 @@ def build_suggestions(missing_skills: list[str], section_checks: dict[str, bool]
         suggestions.append("Add a projects section with measurable outcomes and the tools used.")
     if not section_checks.get("certifications"):
         suggestions.append("List relevant certifications, coursework, or training if you have them.")
+    weak_sections = [section.name for section in section_feedback if section.score < 70]
+    if weak_sections:
+        suggestions.append("Prioritize these weak areas first: " + ", ".join(weak_sections[:5]) + ".")
     if score < 70:
         suggestions.append("Mirror the job description language more closely in your summary and bullet points.")
     suggestions.append("Use action verbs and metrics, for example reduced time, improved accuracy, or served users.")
     return suggestions
+
+
+def build_improved_resume(
+    resume_text: str,
+    job_description: str,
+    missing_skills: list[str],
+    suggestions: list[str],
+) -> str:
+    resume_lines = [line.strip() for line in resume_text.splitlines() if line.strip()]
+    name = resume_lines[0] if resume_lines else "Candidate Name"
+    target_keywords = ", ".join(extract_keywords(job_description, 12))
+    missing_line = ", ".join(missing_skills[:8]) if missing_skills else "No major tracked skill gaps found"
+    original_excerpt = "\n".join(resume_lines[:24])
+
+    return "\n".join(
+        [
+            name,
+            "",
+            "TARGETED PROFESSIONAL SUMMARY",
+            "Software and data-focused candidate with hands-on project experience, strong problem-solving ability,",
+            "and role-aligned technical skills. Ready to contribute to recruiter priorities around delivery,",
+            "quality, collaboration, and measurable business impact.",
+            "",
+            "ATS KEYWORDS TO INCLUDE WHERE TRUE",
+            target_keywords or "Paste a detailed job description to generate stronger keyword targets.",
+            "",
+            "SKILL GAPS TO ADDRESS",
+            missing_line,
+            "",
+            "REWRITE CHECKLIST",
+            *[f"- {suggestion}" for suggestion in suggestions],
+            "",
+            "ORIGINAL RESUME EXCERPT",
+            original_excerpt,
+        ]
+    )
 
 
 def read_resume_file(file_name: str, content: bytes) -> str:
