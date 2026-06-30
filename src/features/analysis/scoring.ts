@@ -306,9 +306,9 @@ function buildSuggestions(resume: ResumeDocument, missingSkills: string[]): Resu
   return suggestions;
 }
 
-function buildImprovedResume(resume: ResumeDocument, suggestions: ResumeSuggestion[]) {
-  const safe = suggestions.filter((suggestion) => !suggestion.requiresConfirmation);
-  let text = resume.originalText;
+export function buildImprovedResumeText(originalText: string, suggestions: ResumeSuggestion[]) {
+  const safe = suggestions.filter((suggestion) => suggestion.accepted && !suggestion.requiresConfirmation);
+  let text = originalText;
   for (const suggestion of safe) {
     if (suggestion.originalText && suggestion.suggestedText && text.includes(suggestion.originalText)) {
       text = text.replace(suggestion.originalText, suggestion.suggestedText);
@@ -337,7 +337,7 @@ export function analyzeResume(resume: ResumeDocument, jobDescription = ""): Anal
   const potentialScore = clamp(Math.round(overallScore + autoFixImpact + issues.filter((issue) => issue.requiresConfirmation).length * 2), 0, 100);
   const optimizedScore = clamp(Math.round(overallScore + autoFixImpact), 0, potentialScore);
   const words = wordCount(resume.originalText);
-  const improvedResumeText = buildImprovedResume(resume, suggestions);
+  const improvedResumeText = buildImprovedResumeText(resume.originalText, suggestions);
 
   const analysis: ResumeAnalysis = {
     overallScore,
@@ -382,11 +382,16 @@ export function applySafeSuggestions(payload: AnalysisPayload): AnalysisPayload 
     ...suggestion,
     accepted: !suggestion.requiresConfirmation
   }));
+  const acceptedImpact = safeSuggestions
+    .filter((suggestion) => suggestion.accepted && !suggestion.requiresConfirmation)
+    .reduce((sum, suggestion) => sum + suggestion.expectedScoreImpact, 0);
+  const originalScore = payload.versions.find((version) => version.id === "original")?.score ?? payload.analysis.overallScore;
   return {
     ...payload,
+    improvedResumeText: buildImprovedResumeText(payload.resume.originalText, safeSuggestions),
     analysis: {
       ...payload.analysis,
-      overallScore: payload.analysis.optimizedScore,
+      overallScore: clamp(Math.round(originalScore + acceptedImpact), 0, payload.analysis.potentialScore),
       suggestions: safeSuggestions
     }
   };

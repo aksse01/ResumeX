@@ -26,7 +26,7 @@ async function downloadExport(payload: AnalysisPayload, format: "txt" | "json" |
 }
 
 export function ResumeWorkspace() {
-  const { payload, setPayload, updateSuggestion } = useResumeStore();
+  const { payload, setPayload, updateSuggestion, acceptAllSafeSuggestions, rejectAllSuggestions } = useResumeStore();
   const [step, setStep] = useState<Step>("upload");
   const [resumeText, setResumeText] = useState("");
   const [jobDescription, setJobDescription] = useState("");
@@ -163,7 +163,11 @@ export function ResumeWorkspace() {
                 <div className="eyebrow">Analysis results</div>
                 <h1>{payload.resume.title}</h1>
               </div>
-              <span className="pill">{payload.analysis.parseabilityStatus}</span>
+              <div className="row">
+                <span className="pill">{payload.analysis.parseabilityStatus}</span>
+                <button className="button button-primary" onClick={acceptAllSafeSuggestions}>Auto improve safe changes</button>
+                <button className="button" onClick={rejectAllSuggestions}>Reject all</button>
+              </div>
             </div>
             <div className="grid grid-4" style={{ margin: "20px 0" }}>
               <div className="metric"><span>ATS score</span><strong>{payload.analysis.overallScore}</strong></div>
@@ -181,10 +185,13 @@ export function ResumeWorkspace() {
 
             <h2 style={{ marginTop: 26 }}>Before and after review</h2>
             {payload.analysis.suggestions.map((suggestion) => (
-              <div className="issue" key={suggestion.id}>
+              <div className="issue" key={suggestion.id} data-suggestion-id={suggestion.id}>
                 <div className="row" style={{ justifyContent: "space-between" }}>
                   <span className="pill">{suggestion.type}</span>
-                  <span className="pill">Impact +{suggestion.expectedScoreImpact}</span>
+                  <div className="row">
+                    <span className="pill">Impact +{suggestion.expectedScoreImpact}</span>
+                    <span className="pill">{suggestion.accepted ? "Accepted" : suggestion.requiresConfirmation ? "Needs confirmation" : "Pending"}</span>
+                  </div>
                 </div>
                 <div className="grid grid-2" style={{ marginTop: 12 }}>
                   <div className="diff-box diff-before"><strong>Original</strong><p>{suggestion.originalText}</p></div>
@@ -193,11 +200,18 @@ export function ResumeWorkspace() {
                 <p>{suggestion.reason}</p>
                 {suggestion.requiresConfirmation ? <p style={{ color: "var(--amber)" }}>Needs confirmation before export. ResumeForge AI will not add this as fact automatically.</p> : null}
                 <div className="row">
-                  <button className="button button-primary" onClick={() => updateSuggestion(suggestion.id, true)}>Accept</button>
+                  <button className="button button-primary" onClick={() => updateSuggestion(suggestion.id, true)} disabled={suggestion.requiresConfirmation}>
+                    {suggestion.accepted ? "Accepted" : "Accept"}
+                  </button>
                   <button className="button button-danger" onClick={() => updateSuggestion(suggestion.id, false)}>Reject</button>
                 </div>
               </div>
             ))}
+
+            <h2 style={{ marginTop: 26 }}>Improved resume preview</h2>
+            <div className="resume-canvas" aria-label="Improved resume preview">
+              {payload.improvedResumeText}
+            </div>
           </>
         ) : null}
       </section>
@@ -243,6 +257,7 @@ export function ResumeWorkspace() {
               <button className="button" onClick={() => downloadExport(payload, "docx")}><Download size={16} /> DOCX</button>
               <button className="button" onClick={() => window.print()}><Printer size={16} /> PDF</button>
             </div>
+            <p className="trust-note">Exports use the improved resume preview above, including accepted safe changes only.</p>
           </>
         ) : (
           <p className="section-lead">Run an analysis to see issue cards, safe fixes, risky confirmations, keyword matrix, and exports.</p>

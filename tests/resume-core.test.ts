@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { analyzeResume } from "@/features/analysis/scoring";
+import { analyzeResume, applySafeSuggestions } from "@/features/analysis/scoring";
 import { getExportReadiness } from "@/features/export/export-readiness";
 import { parseResumeText } from "@/features/resumes/parser";
 import { findSkills, normalizeSkillName } from "@/features/resumes/skill-taxonomy";
@@ -42,5 +42,16 @@ describe("ResumeForge AI core workflow", () => {
     const payload = analyzeResume(parseResumeText(demoResumeText), demoJobDescription);
     const readiness = getExportReadiness(payload);
     expect(readiness.some((item) => item.label === "No unresolved placeholders")).toBe(true);
+  });
+
+  it("applies accepted safe suggestions to the improved resume and score", () => {
+    const payload = analyzeResume(parseResumeText(demoResumeText), demoJobDescription);
+    expect(payload.improvedResumeText).toContain("Worked on responsive pages");
+
+    const improved = applySafeSuggestions(payload);
+
+    expect(improved.improvedResumeText).toContain("Contributed to responsive pages");
+    expect(improved.analysis.overallScore).toBeGreaterThanOrEqual(payload.analysis.overallScore);
+    expect(improved.analysis.suggestions.some((suggestion) => suggestion.accepted)).toBe(true);
   });
 });
