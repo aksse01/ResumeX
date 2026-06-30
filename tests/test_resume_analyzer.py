@@ -1,6 +1,6 @@
 import unittest
 
-from resume_analyzer import analyze_resume, check_sections, find_skills
+from resume_analyzer import analyze_resume, check_sections, clean_extracted_text, find_skills
 
 
 class ResumeAnalyzerTests(unittest.TestCase):
@@ -33,6 +33,20 @@ class ResumeAnalyzerTests(unittest.TestCase):
         self.assertTrue(sections["experience"])
         self.assertTrue(sections["projects"])
         self.assertFalse(sections["certifications"])
+
+    def test_clean_extracted_text_removes_pdf_cid_artifacts(self):
+        cleaned = clean_extracted_text("Name\n(cid:131) phone (cid:239) link")
+
+        self.assertNotIn("cid:", cleaned)
+        self.assertIn("phone", cleaned)
+
+    def test_find_skills_matches_common_variants(self):
+        skills = find_skills("React.js dashboards, data analytics, and problem-solving presentations")
+
+        self.assertIn("react", skills)
+        self.assertIn("data analysis", skills)
+        self.assertIn("problem solving", skills)
+        self.assertIn("communication", skills)
 
 
 if __name__ == "__main__":

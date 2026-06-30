@@ -8,45 +8,47 @@ from pathlib import Path
 from typing import Iterable
 
 
-SKILL_KEYWORDS = {
-    "python",
-    "java",
-    "javascript",
-    "typescript",
-    "react",
-    "node",
-    "django",
-    "flask",
-    "fastapi",
-    "sql",
-    "mysql",
-    "postgresql",
-    "mongodb",
-    "aws",
-    "azure",
-    "gcp",
-    "docker",
-    "kubernetes",
-    "git",
-    "linux",
-    "machine learning",
-    "deep learning",
-    "nlp",
-    "data analysis",
-    "pandas",
-    "numpy",
-    "tensorflow",
-    "pytorch",
-    "excel",
-    "power bi",
-    "tableau",
-    "communication",
-    "leadership",
-    "problem solving",
-    "project management",
-    "agile",
-    "scrum",
+SKILL_ALIASES = {
+    "python": ("python",),
+    "java": ("java",),
+    "javascript": ("javascript", "java script", "js"),
+    "typescript": ("typescript", "type script", "ts"),
+    "react": ("react", "reactjs", "react js", "react.js"),
+    "node": ("node", "nodejs", "node js", "node.js"),
+    "django": ("django",),
+    "flask": ("flask",),
+    "fastapi": ("fastapi", "fast api"),
+    "sql": ("sql",),
+    "mysql": ("mysql", "my sql"),
+    "postgresql": ("postgresql", "postgres"),
+    "mongodb": ("mongodb", "mongo db"),
+    "aws": ("aws", "amazon web services"),
+    "azure": ("azure",),
+    "gcp": ("gcp", "google cloud"),
+    "docker": ("docker",),
+    "kubernetes": ("kubernetes", "k8s"),
+    "git": ("git", "github", "git hub"),
+    "linux": ("linux",),
+    "machine learning": ("machine learning", "ml"),
+    "deep learning": ("deep learning",),
+    "nlp": ("nlp", "natural language processing"),
+    "data analysis": ("data analysis", "data analytics", "analytics"),
+    "pandas": ("pandas",),
+    "numpy": ("numpy",),
+    "tensorflow": ("tensorflow", "tensor flow"),
+    "pytorch": ("pytorch", "py torch"),
+    "excel": ("excel", "microsoft excel"),
+    "power bi": ("power bi", "powerbi"),
+    "tableau": ("tableau",),
+    "communication": ("communication", "communications", "presentation", "presentations"),
+    "leadership": ("leadership",),
+    "problem solving": ("problem solving", "problem-solving"),
+    "project management": ("project management",),
+    "agile": ("agile",),
+    "scrum": ("scrum",),
 }
+
+SKILL_KEYWORDS = set(SKILL_ALIASES)
 
 SECTION_KEYWORDS = {
     "experience": ("experience", "employment", "work history", "internship"),
@@ -70,8 +72,17 @@ class AnalysisResult:
 
 def normalize_text(text: str) -> str:
     text = text.lower()
-    text = re.sub(r"[^a-z0-9+#\s-]", " ", text)
+    text = re.sub(r"\(cid:\d+\)", " ", text)
+    text = re.sub(r"(?<=\w)[./](?=\w)", " ", text)
+    text = re.sub(r"[^a-z0-9+#\s]", " ", text)
     return re.sub(r"\s+", " ", text).strip()
+
+
+def clean_extracted_text(text: str) -> str:
+    text = re.sub(r"\(cid:\d+\)", " ", text)
+    text = re.sub(r"[ \t]+", " ", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    return text.strip()
 
 
 def extract_keywords(text: str, max_keywords: int = 30) -> list[str]:
@@ -110,10 +121,16 @@ def find_skills(text: str, skill_set: Iterable[str] = SKILL_KEYWORDS) -> set[str
     normalized = normalize_text(text)
     found: set[str] = set()
     for skill in skill_set:
-        pattern = r"(?<![a-z0-9+#])" + re.escape(skill) + r"(?![a-z0-9+#])"
-        if re.search(pattern, normalized):
+        aliases = SKILL_ALIASES.get(skill, (skill,))
+        if any(_contains_term(normalized, alias) for alias in aliases):
             found.add(skill)
     return found
+
+
+def _contains_term(normalized_text: str, term: str) -> bool:
+    normalized_term = normalize_text(term)
+    pattern = r"(?<![a-z0-9+#])" + re.escape(normalized_term) + r"(?![a-z0-9+#])"
+    return bool(re.search(pattern, normalized_text))
 
 
 def check_sections(resume_text: str) -> dict[str, bool]:
@@ -170,7 +187,7 @@ def build_suggestions(missing_skills: list[str], section_checks: dict[str, bool]
 def read_resume_file(file_name: str, content: bytes) -> str:
     suffix = Path(file_name).suffix.lower()
     if suffix == ".txt":
-        return content.decode("utf-8", errors="ignore")
+        return clean_extracted_text(content.decode("utf-8", errors="ignore"))
     if suffix == ".pdf":
         return read_pdf(content)
     if suffix == ".docx":
@@ -185,11 +202,11 @@ def read_pdf(content: bytes) -> str:
     with pdfplumber.open(BytesIO(content)) as pdf:
         for page in pdf.pages:
             text_parts.append(page.extract_text() or "")
-    return "\n".join(text_parts).strip()
+    return clean_extracted_text("\n".join(text_parts))
 
 
 def read_docx(content: bytes) -> str:
     from docx import Document
 
     document = Document(BytesIO(content))
-    return "\n".join(paragraph.text for paragraph in document.paragraphs).strip()
+    return clean_extracted_text("\n".join(paragraph.text for paragraph in document.paragraphs))
