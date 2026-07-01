@@ -6,6 +6,8 @@ ResumeX is a premium Next.js SaaS application for resume analysis, ATS optimizat
 
 **Owner and Creator:** Aaditya Sengar
 
+**Live Demo:** https://resumex-livid.vercel.app
+
 ## What It Does
 
 - Upload or paste PDF, DOCX, or TXT resume content.

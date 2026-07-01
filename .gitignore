@@ -14,3 +14,6 @@ dist/
 .streamlit/secrets.toml
 build/
 *.egg-info/
+
+.vercel
+.env*.local
