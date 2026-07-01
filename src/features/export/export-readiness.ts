@@ -28,7 +28,7 @@ export function getExportReadiness(payload: AnalysisPayload): ExportReadinessIte
     {
       label: "PDF text selectability",
       passed: payload.analysis.parseabilityStatus !== "high-risk",
-      detail: "Use the print-to-PDF path from the preview for selectable text."
+      detail: "The improved PDF export is generated as selectable text from the reviewed resume preview."
     },
     {
       label: "Dates and links checked",

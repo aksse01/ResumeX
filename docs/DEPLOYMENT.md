@@ -34,4 +34,4 @@ npx prisma migrate dev
 
 ## Production Notes
 
-Deploy on a Node.js 20+ host. Configure PostgreSQL, private object storage, logging, error monitoring, and a queue before enabling long-running file processing or external AI calls.
+Deploy on a Node.js 20+ host. Configure PostgreSQL, private object storage, logging, error monitoring, and a queue before enabling long-running file processing or external AI calls. Improved PDF exports are generated server-side with pdfkit, so keep the resume export API on a Node.js runtime.

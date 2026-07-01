@@ -1,6 +1,6 @@
 # Security
 
-ResumeForge AI treats resumes and job descriptions as sensitive untrusted content.
+KindlyCV AI treats resumes and job descriptions as sensitive untrusted content.
 
 ## Implemented
 

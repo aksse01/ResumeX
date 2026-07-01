@@ -3,8 +3,8 @@ import { Github, Mail } from "lucide-react";
 
 export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" | "reset" | "verify" }) {
   const titles = {
-    "sign-in": "Sign in to ResumeForge AI",
-    "sign-up": "Create your ResumeForge AI account",
+    "sign-in": "Sign in to KindlyCV AI",
+    "sign-up": "Create your KindlyCV AI account",
     reset: "Reset your password",
     verify: "Verify your email"
   };

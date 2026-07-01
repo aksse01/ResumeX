@@ -1,8 +1,8 @@
-# ResumeForge AI Implementation Plan
+# KindlyCV AI Implementation Plan
 
 ## Current Repository
 
-The original repository is a Python Streamlit resume analyzer with a useful local scoring engine and basic setup scripts. The requested product is a full ResumeForge AI SaaS application using Next.js, TypeScript, structured services, authenticated dashboards, resume parsing, scoring, optimization, review, export, and documentation.
+The original repository is a Python Streamlit resume analyzer with a useful local scoring engine and basic setup scripts. The requested product is a full KindlyCV AI SaaS application using Next.js, TypeScript, structured services, authenticated dashboards, resume parsing, scoring, optimization, review, export, and documentation.
 
 ## Migration Strategy
 
@@ -14,11 +14,11 @@ The original repository is a Python Streamlit resume analyzer with a useful loca
 ## Implemented In This Pass
 
 - Next.js TypeScript foundation.
-- ResumeForge AI brand, landing page, dashboard, auth demo screens, upload wizard, analysis dashboard, editor/review workspace, application tracker, and assistant panels.
+- KindlyCV AI brand, landing page, dashboard, auth demo screens, upload wizard, analysis dashboard, editor/review workspace, application tracker, and assistant panels.
 - Local deterministic analyzer with transparent 100-point scoring rubric.
 - Job-description matching and keyword matrix.
 - Safe rewrite suggestions with claim-status controls.
-- TXT, JSON, and DOCX export endpoints plus print-to-PDF guidance.
+- TXT, JSON, DOCX, and improved PDF export endpoints.
 - Prisma schema and service boundaries.
 - Documentation and tests for the core workflow.
 

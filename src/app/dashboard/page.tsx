@@ -16,7 +16,7 @@ export default function DashboardPage() {
       <div className="section-header">
         <div>
           <div className="eyebrow">Dashboard</div>
-          <h1>Welcome back to ResumeForge AI.</h1>
+          <h1>Welcome back to KindlyCV AI.</h1>
           <p className="section-lead">Track resume readiness, job-match progress, versions, exports, and applications.</p>
         </div>
         <LinkButton href="/resumes/new" variant="primary">

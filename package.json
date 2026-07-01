@@ -1,8 +1,8 @@
 {
-  "name": "resumeforge-ai",
+  "name": "kindlycv-ai",
   "version": "1.0.0",
   "private": true,
-  "description": "ResumeForge AI - ATS resume analyzer, optimizer, editor, and export workflow.",
+  "description": "KindlyCV AI - ATS resume analyzer, optimizer, editor, and export workflow.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -17,6 +17,7 @@
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-progress": "^1.1.7",
     "@radix-ui/react-tabs": "^1.1.12",
+    "@types/pdfkit": "^0.17.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "docx": "^9.5.1",
@@ -25,6 +26,7 @@
     "mammoth": "^1.9.1",
     "next": "^15.3.4",
     "pdf-parse": "^1.1.1",
+    "pdfkit": "^0.19.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.59.0",

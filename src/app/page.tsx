@@ -13,13 +13,13 @@ const features = [
   "Section completeness checks",
   "Grammar and readability analysis",
   "Professional templates",
-  "TXT, JSON, DOCX, and print-to-PDF export",
+  "TXT, JSON, DOCX, and improved PDF export",
   "Version history architecture",
   "Privacy controls"
 ];
 
 const faq = [
-  ["Does ResumeForge AI guarantee interviews?", "No. It improves clarity, keyword alignment, and ATS readability, but hiring decisions depend on many external factors."],
+  ["Does KindlyCV AI guarantee interviews?", "No. It improves clarity, keyword alignment, and ATS readability, but hiring decisions depend on many external factors."],
   ["Will it fabricate achievements?", "No. Unverified skills, metrics, dates, and accomplishments are converted into confirmation questions."],
   ["Can I use it without an AI key?", "Yes. Demo mode uses deterministic local analysis and safe rewrite rules."],
   ["Is the score an external ATS score?", "No. It is a transparent internal rubric designed to explain strengths and weaknesses."]
@@ -34,7 +34,7 @@ export default function LandingPage() {
             <div className="eyebrow">Build a resume that recruiters and ATS systems can understand.</div>
             <h1>Turn your resume into an ATS-ready job application.</h1>
             <p>
-              Upload your resume, match it to a job description, and let ResumeForge AI improve structure,
+              Upload your resume, match it to a job description, and let KindlyCV AI improve structure,
               keywords, bullet points, readability, and impact while preserving factual integrity.
             </p>
             <div className="hero-actions">
@@ -44,7 +44,7 @@ export default function LandingPage() {
               <LinkButton href="/dashboard">View Demo</LinkButton>
             </div>
             <p className="trust-note">
-              ResumeForge AI never invents education, employers, dates, certifications, metrics, or skills.
+              KindlyCV AI never invents education, employers, dates, certifications, metrics, or skills.
             </p>
           </div>
 
@@ -93,7 +93,7 @@ export default function LandingPage() {
               ["Upload", "Add PDF, DOCX, or TXT resume content."],
               ["Analyze", "Get a transparent score and category deductions."],
               ["Improve", "Review factual suggestions before applying changes."],
-              ["Export", "Download job-ready TXT, JSON, DOCX, or print a PDF."]
+              ["Export", "Download job-ready TXT, JSON, DOCX, or an improved PDF."]
             ].map(([title, copy], index) => (
               <Card key={title}>
                 <span className="pill">Step {index + 1}</span>

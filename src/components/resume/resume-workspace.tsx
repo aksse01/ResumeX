@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Download, FileCheck2, Loader2, Printer, Sparkles, UploadCloud } from "lucide-react";
+import { Download, FileCheck2, Loader2, Sparkles, UploadCloud } from "lucide-react";
 import { demoJobDescription, demoResumeText } from "@/data/demo";
 import { getExportReadiness } from "@/features/export/export-readiness";
 import { useResumeStore } from "@/stores/resume-store";
@@ -9,18 +9,18 @@ import type { AnalysisPayload } from "@/types/resume";
 
 type Step = "upload" | "goal" | "job" | "confirm" | "analysis";
 
-async function downloadExport(payload: AnalysisPayload, format: "txt" | "json" | "docx") {
+async function downloadExport(payload: AnalysisPayload, format: "txt" | "json" | "docx" | "pdf") {
   const response = await fetch("/api/resumes/export", {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify({ payload, format, filename: `${payload.resume.contact.fullName || "Resume"}_ResumeForge_AI` })
+    body: JSON.stringify({ payload, format, filename: `${payload.resume.contact.fullName || "Resume"}_KindlyCV_AI` })
   });
   if (!response.ok) throw new Error("Export failed.");
   const blob = await response.blob();
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `${payload.resume.contact.fullName || "Resume"}_ResumeForge_AI.${format}`;
+  link.download = `${payload.resume.contact.fullName || "Resume"}_KindlyCV_AI.${format}`;
   link.click();
   URL.revokeObjectURL(url);
 }
@@ -198,7 +198,7 @@ export function ResumeWorkspace() {
                   <div className="diff-box diff-after"><strong>Suggested</strong><p>{suggestion.suggestedText}</p></div>
                 </div>
                 <p>{suggestion.reason}</p>
-                {suggestion.requiresConfirmation ? <p style={{ color: "var(--amber)" }}>Needs confirmation before export. ResumeForge AI will not add this as fact automatically.</p> : null}
+                {suggestion.requiresConfirmation ? <p style={{ color: "var(--amber)" }}>Needs confirmation before export. KindlyCV AI will not add this as fact automatically.</p> : null}
                 <div className="row">
                   <button className="button button-primary" onClick={() => updateSuggestion(suggestion.id, true)} disabled={suggestion.requiresConfirmation}>
                     {suggestion.accepted ? "Accepted" : "Accept"}
@@ -255,9 +255,9 @@ export function ResumeWorkspace() {
               <button className="button" onClick={() => downloadExport(payload, "txt")}><Download size={16} /> TXT</button>
               <button className="button" onClick={() => downloadExport(payload, "json")}><Download size={16} /> JSON</button>
               <button className="button" onClick={() => downloadExport(payload, "docx")}><Download size={16} /> DOCX</button>
-              <button className="button" onClick={() => window.print()}><Printer size={16} /> PDF</button>
+              <button className="button button-primary" onClick={() => downloadExport(payload, "pdf")}><Download size={16} /> Improved PDF</button>
             </div>
-            <p className="trust-note">Exports use the improved resume preview above, including accepted safe changes only.</p>
+            <p className="trust-note">Exports use the improved resume preview above, including accepted safe changes only. The PDF button generates a polished downloadable resume PDF on the server.</p>
           </>
         ) : (
           <p className="section-lead">Run an analysis to see issue cards, safe fixes, risky confirmations, keyword matrix, and exports.</p>

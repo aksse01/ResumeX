@@ -294,7 +294,7 @@ function buildSuggestions(resume: ResumeDocument, missingSkills: string[]): Resu
       type: "job-match",
       originalText: "Skills section",
       suggestedText: `Ask user to confirm these job keywords before adding: ${missingSkills.slice(0, 8).join(", ")}`,
-      reason: "ResumeForge AI does not insert unsupported skills.",
+      reason: "KindlyCV AI does not insert unsupported skills.",
       expectedScoreImpact: Math.min(8, missingSkills.length * 1.5),
       confidence: 0.9,
       factualRisk: "high",

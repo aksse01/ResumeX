@@ -1,6 +1,6 @@
 # Architecture
 
-ResumeForge AI is now structured as a Next.js App Router application with TypeScript.
+KindlyCV AI is now structured as a Next.js App Router application with TypeScript.
 
 ## Layers
 
@@ -19,7 +19,7 @@ ResumeForge AI is now structured as a Next.js App Router application with TypeSc
 4. Scoring engine applies the transparent 100-point internal rubric.
 5. Optimizer generates safe factual suggestions and confirmation-required risky suggestions.
 6. UI shows before/after review, issues, keyword matrix, and export readiness.
-7. `/api/resumes/export` returns TXT, JSON, or DOCX. PDF is available through print-to-PDF from the resume preview.
+7. `/api/resumes/export` returns TXT, JSON, DOCX, or a polished improved resume PDF built from the accepted-change preview.
 
 ## Production Integrations
 

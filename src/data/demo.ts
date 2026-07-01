@@ -32,6 +32,6 @@ export const demoJobDescription = `Software developer or data analyst intern wit
 
 export const applicationRows = [
   { company: "Northstar Analytics", role: "Data Analyst Intern", status: "Applied", score: 91, date: "2026-06-25" },
-  { company: "ForgeCloud", role: "Frontend Intern", status: "Interview", score: 88, date: "2026-06-22" },
+  { company: "BrightCloud", role: "Frontend Intern", status: "Interview", score: 88, date: "2026-06-22" },
   { company: "CivicSoft", role: "Software Developer Intern", status: "Saved", score: 79, date: "2026-06-20" }
 ];
