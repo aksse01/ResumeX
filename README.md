@@ -4,6 +4,8 @@ ResumeX is a premium Next.js SaaS application for resume analysis, ATS optimizat
 
 **Tagline:** Build a resume that recruiters and ATS systems can understand.
 
+**Owner and Creator:** Aaditya Sengar
+
 ## What It Does
 
 - Upload or paste PDF, DOCX, or TXT resume content.
@@ -37,6 +39,12 @@ ResumeX is a premium Next.js SaaS application for resume analysis, ATS optimizat
 - Vitest for unit tests
 
 ## Local Setup
+
+Prerequisites:
+
+- Node.js 20.18 or newer
+- npm 10 or newer
+- Git
 
 ```bash
 git clone https://github.com/aksse01/ResumeX.git
@@ -166,3 +174,7 @@ Uploaded resume and job-description text are treated as untrusted input.
 - [Deployment](docs/DEPLOYMENT.md)
 - [Contributing](docs/CONTRIBUTING.md)
 - [Troubleshooting](docs/TROUBLESHOOTING.md)
+
+## License
+
+MIT License. Copyright (c) 2026 Aaditya Sengar.

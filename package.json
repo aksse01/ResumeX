@@ -3,11 +3,32 @@
   "version": "1.0.0",
   "private": true,
   "description": "ResumeX - ATS resume analyzer, optimizer, editor, and export workflow.",
+  "author": "Aaditya Sengar",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aksse01/ResumeX.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aksse01/ResumeX/issues"
+  },
+  "homepage": "https://github.com/aksse01/ResumeX#readme",
+  "keywords": [
+    "resume",
+    "ats",
+    "nlp",
+    "nextjs",
+    "pdf",
+    "career"
+  ],
+  "overrides": {
+    "postcss": "^8.5.10"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint src tests next.config.mjs vitest.config.ts --max-warnings=0",
     "typecheck": "tsc --noEmit -p tsconfig.typecheck.json",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -36,6 +57,7 @@
     "zustand": "^5.0.6"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^22.10.5",
@@ -47,7 +69,7 @@
     "jsdom": "^25.0.1",
     "prisma": "^6.11.1",
     "typescript": "^5.7.2",
-    "vitest": "^2.1.8"
+    "vitest": "^4.1.9"
   },
   "engines": {
     "node": ">=20.18.0"

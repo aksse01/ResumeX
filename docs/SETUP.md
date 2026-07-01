@@ -2,7 +2,15 @@
 
 ## Quick Start
 
+Prerequisites:
+
+- Node.js 20.18 or newer
+- npm 10 or newer
+- Git
+
 ```bash
+git clone https://github.com/aksse01/ResumeX.git
+cd ResumeX
 npm install
 copy .env.example .env.local
 npx prisma generate
