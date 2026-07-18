@@ -8,9 +8,9 @@ export default function ApplicationsPage() {
     <main className="container section">
       <div className="section-header">
         <div>
-          <div className="eyebrow">Applications</div>
-          <h1>Job application tracker.</h1>
-          <p className="section-lead">Kanban and table-ready tracker for company, role, URL, resume version, status, notes, and follow-up date.</p>
+          <div className="eyebrow">Static preview</div>
+          <h1>Application tracker concept.</h1>
+          <p className="section-lead">This page demonstrates a possible tracker layout with sample data. Editing and persistence are not implemented.</p>
         </div>
       </div>
       <div className="grid grid-4">

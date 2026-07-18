@@ -143,7 +143,7 @@ export function ResumeWorkspace() {
           <>
             <div className="eyebrow">Step 4</div>
             <h1>Confirm details before analysis</h1>
-            <p className="section-lead">Extraction can be corrected here. This protects factual integrity before AI suggestions are generated.</p>
+            <p className="section-lead">Extraction can be corrected here before rewrite suggestions are generated.</p>
             <textarea className="textarea" value={resumeText} onChange={(event) => setResumeText(event.target.value)} />
             {error ? <p style={{ color: "var(--red)" }}>{error}</p> : null}
             <div className="row" style={{ marginTop: 18 }}>
@@ -217,7 +217,7 @@ export function ResumeWorkspace() {
       </section>
 
       <aside className="panel">
-        <h2>AI suggestions and export</h2>
+        <h2>Suggestions and export</h2>
         {payload ? (
           <>
             <div className="score-ring" style={{ width: 150 }}>

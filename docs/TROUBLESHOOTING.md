@@ -12,13 +12,15 @@ Delete `node_modules` and reinstall:
 npm install
 ```
 
-## Prisma client is missing
+## Inspecting the Prisma schema
 
 Run:
 
 ```bash
 npx prisma generate
 ```
+
+The current guest workflow does not import Prisma or persist data, so this step is optional.
 
 ## Port 3000 is already in use
 
@@ -36,9 +38,9 @@ Some PDFs are scanned images or encrypted. Paste the resume text manually, or co
 
 Make sure the file is a valid `.docx`, not the older `.doc` format.
 
-## Build fails because environment variables are missing
+## Changing local configuration
 
-Copy `.env.example` to `.env.local` and update values as needed:
+The current guest workflow builds without an environment file. To change the upload-size setting, copy the sanitized example:
 
 ```bash
 copy .env.example .env.local

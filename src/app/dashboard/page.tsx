@@ -15,9 +15,9 @@ export default function DashboardPage() {
     <main className="container section">
       <div className="section-header">
         <div>
-          <div className="eyebrow">Dashboard</div>
+          <div className="eyebrow">Sample dashboard</div>
           <h1>Welcome back to ResumeX.</h1>
-          <p className="section-lead">Track resume readiness, job-match progress, versions, exports, and applications.</p>
+          <p className="section-lead">This page previews a future dashboard with static sample resumes and applications. Data is not persisted.</p>
         </div>
         <LinkButton href="/resumes/new" variant="primary">
           <FilePlus2 size={18} />
@@ -46,7 +46,7 @@ export default function DashboardPage() {
               <span className="pill" key={filter}>{filter}</span>
             ))}
           </div>
-          <div className="pill"><Search size={14} /> Search and sort ready</div>
+          <div className="pill"><Search size={14} /> Static filter preview</div>
         </div>
         <div className="grid" style={{ marginTop: 18 }}>
           {resumes.map((resume) => (
@@ -71,7 +71,7 @@ export default function DashboardPage() {
         <Card>
           <BarChart3 color="var(--indigo)" />
           <h2>Improvement progress</h2>
-          <p className="section-lead">Score history and issue-category analytics are wired in the product model and ready for database persistence.</p>
+          <p className="section-lead">This card is a layout preview. Score history and analytics are not connected to stored user data.</p>
         </Card>
         <Card>
           <Clock color="var(--emerald)" />

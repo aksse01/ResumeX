@@ -1,6 +1,6 @@
-# AI Prompts
+# Future AI Prompt Notes
 
-The current application runs in deterministic demo mode. External AI providers should use separate prompt versions for each task.
+The current application does not call an external AI provider. Resume analysis and rewrites use deterministic rules in `src/features/analysis/scoring.ts`. The prompt outlines below are design notes for a future provider integration, not prompts executed by the current app.
 
 ## Extraction Prompt
 

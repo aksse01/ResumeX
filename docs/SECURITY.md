@@ -2,16 +2,16 @@
 
 ResumeX treats resumes and job descriptions as sensitive untrusted content.
 
-## Implemented
+## Current Prototype Safeguards
 
-- File type validation for PDF, DOCX, and TXT.
-- File size limit through `RESUME_FILE_MAX_MB`.
+- Extension/MIME checks for PDF, DOCX, and TXT.
+- A per-file size limit through `RESUME_FILE_MAX_MB`, applied after the multipart request is parsed.
 - Server-side input validation with Zod.
-- Environment variable template for secrets.
-- No secrets committed to the repository.
-- Prompt injection warning in architecture and prompts.
-- Prisma ownership-ready schema with user relations.
-- Export readiness checks for placeholders and unconfirmed claims.
+- A sanitized environment-variable template with blank credential fields.
+- No runtime database writes or external AI calls in the guest workflow.
+- Advisory export-readiness checks for placeholders and unconfirmed claims.
+
+These controls are suitable for a portfolio demo, not for processing sensitive resumes in production.
 
 ## Required Before Production
 
