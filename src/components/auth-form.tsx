@@ -20,7 +20,7 @@ export function AuthForm({ mode }: { mode: "sign-in" | "sign-up" | "reset" | "ve
       <div className="card card-pad">
         <div className="eyebrow">Demo auth mode</div>
         <h1>{titles[mode]}</h1>
-        <p className="section-lead">Production auth is prepared for Auth.js, Clerk, or Supabase Auth. Guest demo works without an account.</p>
+        <p className="section-lead">This is a UI prototype. No authentication provider is connected, and the form and OAuth buttons do not submit credentials.</p>
         <div className="field">
           <label className="label" htmlFor="email">Email</label>
           <input className="input" id="email" type="email" placeholder="you@example.com" />

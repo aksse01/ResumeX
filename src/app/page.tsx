@@ -4,24 +4,24 @@ import { LinkButton } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
 const features = [
-  "ATS resume scoring",
-  "Job-description matching",
-  "Automatic factual rewriting",
+  "Transparent internal scoring",
+  "Job-description skill matching",
+  "Deterministic rewrite suggestions",
   "Keyword gap detection",
-  "Achievement bullet improvement",
-  "Resume formatting repair",
+  "Action-verb improvements",
+  "Plain-text formatting checks",
   "Section completeness checks",
-  "Grammar and readability analysis",
-  "Professional templates",
+  "Writing and readability signals",
+  "Before-and-after review",
   "TXT, JSON, DOCX, and improved PDF export",
-  "Version history architecture",
-  "Privacy controls"
+  "PDF, DOCX, and TXT extraction",
+  "No external AI key required"
 ];
 
 const faq = [
   ["Does ResumeX guarantee interviews?", "No. It improves clarity, keyword alignment, and ATS readability, but hiring decisions depend on many external factors."],
-  ["Will it fabricate achievements?", "No. Unverified skills, metrics, dates, and accomplishments are converted into confirmation questions."],
-  ["Can I use it without an AI key?", "Yes. Demo mode uses deterministic local analysis and safe rewrite rules."],
+  ["Will it add unsupported skills?", "No. Missing job-description skills are flagged for confirmation and kept out of automatic rewrites."],
+  ["Can I use it without an AI key?", "Yes. The current analysis uses deterministic rules and does not call an external model."],
   ["Is the score an external ATS score?", "No. It is a transparent internal rubric designed to explain strengths and weaknesses."]
 ];
 
@@ -34,8 +34,8 @@ export default function LandingPage() {
             <div className="eyebrow">Build a resume that recruiters and ATS systems can understand.</div>
             <h1>Turn your resume into an ATS-ready job application.</h1>
             <p>
-              Upload your resume, match it to a job description, and let ResumeX improve structure,
-              keywords, bullet points, readability, and impact while preserving factual integrity.
+              Upload your resume, compare it with a job description, review an explainable score,
+              and apply conservative wording suggestions before exporting a new draft.
             </p>
             <div className="hero-actions">
               <LinkButton href="/resumes/new" variant="primary">
@@ -44,7 +44,7 @@ export default function LandingPage() {
               <LinkButton href="/dashboard">View Demo</LinkButton>
             </div>
             <p className="trust-note">
-              ResumeX never invents education, employers, dates, certifications, metrics, or skills.
+              Automatic rewrites do not insert new skills or metrics. Missing skills are flagged for review.
             </p>
           </div>
 
@@ -63,7 +63,7 @@ export default function LandingPage() {
               </div>
               <div className="diff-box diff-after">
                 <strong>After</strong>
-                <p>Built weekly performance dashboards using verified data sources, improving reporting consistency across sales operations.</p>
+                <p>Contributed to reports and data.</p>
               </div>
             </div>
           </div>
@@ -107,13 +107,13 @@ export default function LandingPage() {
         <section className="section grid grid-2">
           <Card>
             <FileText color="var(--indigo)" />
-            <h2>Professional document editor direction</h2>
-            <p className="section-lead">The workspace combines resume canvas, score analytics, issue review, safe edits, version history scaffolding, and export readiness.</p>
+            <h2>Review workspace</h2>
+            <p className="section-lead">The workspace combines a resume preview, category scores, issue review, conservative wording edits, and advisory export checks.</p>
           </Card>
           <Card>
             <LockKeyhole color="var(--emerald)" />
-            <h2>Trust and privacy by design</h2>
-            <p className="section-lead">Resume content is treated as untrusted input. Production hooks are documented for auth, object storage, deletion, audit logs, and encrypted persistence.</p>
+            <h2>Clear demo boundaries</h2>
+            <p className="section-lead">The guest flow does not write resumes to an application database, but it is not production-hardened. Do not upload sensitive real documents.</p>
           </Card>
         </section>
 

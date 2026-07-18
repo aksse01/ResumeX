@@ -16,7 +16,7 @@ export function getExportReadiness(payload: AnalysisPayload): ExportReadinessIte
       detail: "The exported resume must not contain unresolved template text."
     },
     {
-      label: "No unconfirmed AI claims",
+      label: "No unconfirmed claims",
       passed: !needsConfirmation,
       detail: "Risky job-match suggestions require user confirmation before export."
     },

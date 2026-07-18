@@ -2,24 +2,24 @@
 
 ## Current Repository
 
-The original repository is a Python Streamlit resume analyzer with a useful local scoring engine and basic setup scripts. The requested product is a full ResumeX SaaS application using Next.js, TypeScript, structured services, authenticated dashboards, resume parsing, scoring, optimization, review, export, and documentation.
+The repository began as a Python Streamlit analyzer and was rebuilt as a Next.js and TypeScript prototype. The working scope is resume extraction, deterministic scoring, job-skill matching, suggestion review, and export. Authenticated dashboards and hosted integrations remain future work.
 
-## Migration Strategy
+## Prototype Strategy
 
 1. Keep the previous Python implementation as legacy reference while making the primary product a Next.js App Router application.
 2. Implement a functional guest-mode workflow first: upload or paste resume, add job description, parse, score, identify issues, generate safe factual rewrites, review before/after changes, recalculate score, and export.
-3. Add production architecture scaffolding for authentication, Prisma, AI abstraction, security, background jobs, and storage without committing secrets.
-4. Document incomplete enterprise integrations honestly so the app remains runnable on any developer machine.
+3. Keep future database and provider ideas separate from the working guest flow.
+4. Document incomplete integrations so the app remains runnable on any developer machine.
 
-## Implemented In This Pass
+## Current Prototype
 
 - Next.js TypeScript foundation.
-- ResumeX brand, landing page, dashboard, auth demo screens, upload wizard, analysis dashboard, editor/review workspace, application tracker, and assistant panels.
+- ResumeX landing page, upload workflow, analysis results, review workspace, and static dashboard/auth/application-tracker previews.
 - Local deterministic analyzer with transparent 100-point scoring rubric.
 - Job-description matching and keyword matrix.
 - Safe rewrite suggestions with claim-status controls.
 - TXT, JSON, DOCX, and improved PDF export endpoints.
-- Prisma schema and service boundaries.
+- Prisma schema and provider-interface scaffolding; neither is connected to runtime persistence or external AI.
 - Documentation and tests for the core workflow.
 
 ## Deferred Production Integrations
@@ -31,4 +31,4 @@ The original repository is a Python Streamlit resume analyzer with a useful loca
 - Malware scanning and object storage.
 - Payment/subscription provider.
 
-These are represented through interfaces, environment variables, Prisma models, and documentation so they can be added without replacing the core product logic.
+Some of these ideas are represented by environment-variable placeholders, a provider interface, Prisma models, or planning notes. They are not implemented integrations.

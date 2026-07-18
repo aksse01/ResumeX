@@ -8,13 +8,13 @@ export default function SecurityPage() {
         <div>
           <div className="eyebrow">Security</div>
           <h1>Resume data is sensitive by default.</h1>
-          <p className="section-lead">The codebase includes file validation, prompt-injection guidance, environment-driven secrets, and production hooks for auth, storage, audit logs, rate limiting, and deletion.</p>
+          <p className="section-lead">The guest prototype has basic request and file checks, but it does not include production authentication, rate limiting, malware scanning, durable storage, or deletion workflows.</p>
         </div>
         <ShieldCheck size={42} color="var(--emerald)" />
       </div>
       <div className="grid grid-3">
-        {["Ownership checks", "No public storage buckets", "Prompt injection defense", "No secrets committed", "Account deletion hooks", "Audit log models"].map((item) => (
-          <Card key={item}><h3>{item}</h3><p>Documented and represented in architecture for production implementation.</p></Card>
+        {["File type and size checks", "Server-side input validation", "No runtime database writes", "No external model calls", "Sanitized env template", "Advisory export checks"].map((item) => (
+          <Card key={item}><h3>{item}</h3><p>Current portfolio-demo boundary.</p></Card>
         ))}
       </div>
     </main>
